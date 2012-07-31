@@ -236,6 +236,7 @@ add_farm_plant("corn", 4, 50, {"default:dirt_with_grass"}, {"default:water_sourc
 add_plant("lavender", 1, 5, {"default:dirt_with_grass"}, {"default:sand"}, 2)
 add_plant("potato", 8, 20, {"default:desert_sand"}, {"default:dirt_with_grass"}, 16)
 add_plant("redshroom", 10, 10, {"default:dirt_with_grass"}, {"default:leaves"}, 3)
+add_plant("cacao", 10, 20, {"default:dirt_with_grass"}, {"snow:dirt_with_snow"}, 16)
 
 
 
