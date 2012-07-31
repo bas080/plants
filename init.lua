@@ -22,7 +22,7 @@
 --variable and function definitions
 local mod_name = "harvest"
 
-local mod_update = 4 --amount of seconds between growing plants on dirt
+local mod_update = 40 --amount of seconds between growing plants on dirt
 
 local crop_names = {
 	"cotton",
