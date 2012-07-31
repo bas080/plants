@@ -228,139 +228,16 @@ minetest.register_node(mod_name..":soil", {
 })
 
 --ABM's for placing wild versions of the plant on dirt tiles
-function test()
 
-
-repeat
-    phase = 1
-    node_name = mod_name..":"..crop_names[name].."_"..crop_phases[phase]
-    node_tile = mod_name.."_"..crop_names[name].."_"..crop_phases[phase] .. ".png"
-minetest.env:find_node_near(p_top, spawnradius, spawnavoid)
-    
-    minetest.register_node(node_name, {--register seedling
-        tile_images = {node_tile},
-        description = crop_names[name].." seeds",
-        wield_image = "",
-        drawtype = "plantlike",
-        inventory_image = "",
-        paramtype = "light",
-        sunlight_propagates = true,
-        walkable = false,
-        groups = { snappy = 3},
-        after_place_node = function(pos, placer)
-            p  = {x = pos.x, y= pos.y-1, z=pos.z}
-            n = minetest.env:get_node(p)
-            if n.name ~= "harvest:soil" then
-                minetest.env:remove_node(pos)
-            end
-        end,
-    })
-    
-    phase = phase + 1
-    node_name = mod_name..":"..crop_names[name].."_"..crop_phases[phase]
-    node_tile = mod_name.."_"..crop_names[name].."_"..crop_phases[phase] .. ".png"
-
-    minetest.register_node(node_name, {
-        description = crop_names[name].." "..crop_phases[phase],
-        wield_image = "",
-        drawtype = "plantlike",
-        inventory_image = "",
-        tile_images = {node_tile},
-        paramtype = "light",
-        groups = { snappy = 3},
-        sunlight_propagates = true,
-        walkable = false,
-    })
-    
-    phase = phase + 1
-    node_name = mod_name..":"..crop_names[name].."_"..crop_phases[phase]
-    node_tile = mod_name.."_"..crop_names[name].."_"..crop_phases[phase] .. ".png"
-    minetest.register_node(node_name, {
-        description = crop_names[name].." "..crop_phases[phase],
-        wield_image = "",
-        drawtype = "plantlike",
-        inventory_image = "",
-        tile_images = {node_tile},
-        paramtype = "light",
-        groups = { snappy = 3},
-        sunlight_propagates = true,
-        walkable = false,
-    })
-    
-    phase = phase + 1
-    node_name = mod_name..":"..crop_names[name].."_"..crop_phases[phase]
-    node_tile = mod_name.."_"..crop_names[name].."_"..crop_phases[phase] .. ".png"
-
-    minetest.register_node(node_name, {
-        description = crop_names[name].." "..crop_phases[phase],
-        wield_image = "",
-        drawtype = "plantlike",
-        inventory_image = "",
-        tile_images = {node_tile},
-        paramtype = "light",
-        groups = { snappy = 3},
-        sunlight_propagates = true,
-        walkable = false,
-    })
-    
-    phase = phase + 1 --wild
-    node_name = mod_name..":"..crop_names[name].."_"..crop_phases[phase]
-    node_tile = mod_name.."_"..crop_names[name].."_"..crop_phases[phase] .. ".png"
-
-    
-    minetest.register_node(node_name, {
-        description = crop_names[name].." "..crop_phases[phase],
-        wield_image = "",
-        drawtype = "plantlike",
-        inventory_image = "",
-        tile_images = {node_tile},
-        paramtype = "light",
-        groups = { snappy = 3},
-        sunlight_propagates = true,
-        walkable = false,
-        drop = { items = { mod_name..":"..crop_names[name].."_seedling"},
-		    max_items = 1,
-		    items = {
-			    {
-				    items = {mod_name..":"..crop_names[name].."_seedling"},
-				    rarity = 30,
-			    },
-		    }
-	    },
-    })
-    
-    --end of node registration continue the looping for other types of crops
-    
-    wild_crops[wild_crop_count] = node_name
-    wild_crop_count = wild_crop_count + 1
-    
-    name = name + 1
-until crop_names[name] == nil
-
-
-    minetest.register_abm({
-        nodenames = {"default:dirt_with_grass"},
-        interval = mod_update,
-        chance = 10,
-        action = function(pos, node)
-        
-            local p = {x=pos.x, y=pos.y+1, z=pos.z}
-            local n = minetest.env:get_node(p)
-
-            if n.name == "air" then
-                if is_node_in_cube({"default:stone"}, pos, 1) then
-		            minetest.env:add_node(p, {name = wild_crops[math.floor(math.random((wild_crop_count-1)))]})
-		        end
-		    end
-            
-        end
-    })
-end
 
 --test()
 add_farm_plant("cotton", 4, 40, {"default:dirt_with_grass"}, {"default:desert_sand"}, 5)
 add_farm_plant("corn", 4, 50, {"default:dirt_with_grass"}, {"default:water_source"}, 3,10)
 add_plant("lavender", 1, 5, {"default:dirt_with_grass"}, {"default:sand"}, 2)
+add_plant("potato", 8, 20, {"default:desert_sand"}, {"default:dirt_with_grass"}, 16)
+add_plant("redshroom", 10, 10, {"default:dirt_with_grass"}, {"default:leaves"}, 3)
+
+
 
 print("[Harvest] Loaded!")
 
