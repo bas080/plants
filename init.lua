@@ -56,7 +56,7 @@ local node_name
 local node_tile
 
 
-local function generate(node, surface, minp, maxp, height_min, height_max, spread, habitat_size, habitat_node)
+local function generate(node, surface, minp, maxp, height_min, height_max, spread, habitat_size, habitat_nodes)
     if maxp.y < height_min or minp.y > height_max then
 		return
 	end
@@ -66,21 +66,35 @@ local function generate(node, surface, minp, maxp, height_min, height_max, sprea
 	
 	local width   = maxp.x-minp.x
 	local length  = maxp.z-minp.z
-
+	local height  = height_max-height_min
     
-
-	local x_current = spread/2
-	local z_current = spread/2
+    local y_current
+	local x_current
+	local z_current
+	
 	--apperently nested while loops don't work!
 	for x_current = spread/2, width, spread do
 	    for z_current = spread/2, length, spread do
-          --print(x_current .. "-" .. width .. " - " .. x_current)
-	        local p = {x=minp.x+x_current, y=20, z=minp.z+z_current}
-	        print(p.x .. " - " .. p.z)
-	        
+	        for y_current = height_max, height_min, -1 do
+	            --print(x_current .. "-" .. width .. " - " .. x_current)
+	            
+	            local p = {x=minp.x+x_current, y=y_current, z=minp.z+z_current}
+	            local n = minetest.env:get_node(p)
+	            
+	            local p_top = {x=p.x, y=p.y+1, z=p.z}
+	            local n_top = minetest.env:get_node(p_top)
+	            if n.name == surface and n_top.name == "air" then
+                    
+                    if minetest.env:find_node_near(p_top, habitat_size, habitat_nodes) ~= nil then
+                        print(p.x .. " - " .. p.y .. " - " .. p.z)
+                        minetest.env:add_node(p_top, {name=node})
+                    end
+
+	            end
+	        end
 	        --randomize positioning a little and then check if the surface(grow on) node is beneath it. If so check if habitat node is within the habitat_size. If so create the node.
 	        
-	        --minetest.env:add_node(p, {name=node})
+
 	        z_current = z_current + spread
         end
     end
@@ -88,15 +102,17 @@ end
 
 minetest.register_on_generated(function(minp, maxp, seed)
 	
-	generate("default:dirt", "default:dirt_with_grass", minp, maxp, -10, 20000, 4, 40, "default:sand")
+	generate("default:cobble", "default:dirt_with_grass", minp, maxp, -10, 60, 4, 4, {"default:sand",})
 	
 end)
 
 local is_node_in_cube = function(nodenames, node_pos, radius)
-    if minetest.env:find_node_near(node_pos, radius, nodenames[name]) ~= nil then
+    
+    if minetest.env:find_node_near(node_pos, radius, nodenames) ~= nil then
         return true
     end
     return false
+    
 end
 
 local add_farm_plant = function(name_plant, spacing, spawning, grow_nodes, near_nodes, near_distance, growing_speed) --register a farming plant
