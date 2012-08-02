@@ -55,17 +55,47 @@ local phase = 1
 local node_name
 local node_tile
 
-local is_node_in_cube = function(nodenames, node_pos, radius)
 
-    local name = 1
+local function generate(node, surface, minp, maxp, height_min, height_max, spread, habitat_size, habitat_node)
+    if maxp.y < height_min or minp.y > height_max then
+		return
+	end
+	
+	local y_min = math.max(minp.y, height_min)
+	local y_max = math.min(maxp.y, height_max)
+	
+	local width   = maxp.x-minp.x
+	local length  = maxp.z-minp.z
 
-    repeat
-        if minetest.env:find_node_near(node_pos, radius, nodenames[name]) ~= nil then
-            return true
-        end
-        name = name + 1
-    until nodenames[name] == nil
     
+
+	local x_current = spread/2
+	local z_current = spread/2
+	--apperently nested while loops don't work!
+	for x_current = spread/2, width, spread do
+	    for z_current = spread/2, length, spread do
+          --print(x_current .. "-" .. width .. " - " .. x_current)
+	        local p = {x=minp.x+x_current, y=20, z=minp.z+z_current}
+	        print(p.x .. " - " .. p.z)
+	        
+	        --randomize positioning a little and then check if the surface(grow on) node is beneath it. If so check if habitat node is within the habitat_size. If so create the node.
+	        
+	        --minetest.env:add_node(p, {name=node})
+	        z_current = z_current + spread
+        end
+    end
+end
+
+minetest.register_on_generated(function(minp, maxp, seed)
+	
+	generate("default:dirt", "default:dirt_with_grass", minp, maxp, -10, 20000, 4, 40, "default:sand")
+	
+end)
+
+local is_node_in_cube = function(nodenames, node_pos, radius)
+    if minetest.env:find_node_near(node_pos, radius, nodenames[name]) ~= nil then
+        return true
+    end
     return false
 end
 
@@ -189,18 +219,12 @@ end
 
 --plant registration
 --Just wild plant
-
 --node registration
-
-
-
 --make tools with which dirt can be prepared for growing
 minetest.register_tool(mod_name..":hoe_wood", {
 	description = "Sickle",
 	inventory_image = "harvest_hoe_wood.png",
-	
 	on_use = function(itemstack, user, pointed_thing)
-        
         -- Must be pointing to node
 		if pointed_thing.type ~= "node" then
 			return
@@ -228,8 +252,6 @@ minetest.register_node(mod_name..":soil", {
 })
 
 --ABM's for placing wild versions of the plant on dirt tiles
-
-
 --test()
 add_farm_plant("cotton", 4, 40, {"default:dirt_with_grass"}, {"default:desert_sand"}, 5)
 add_farm_plant("corn", 4, 50, {"default:dirt_with_grass"}, {"default:water_source"}, 3,10)
