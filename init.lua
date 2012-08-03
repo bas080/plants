@@ -208,12 +208,16 @@ minetest.register_node(mod_name..":soil", {
 })
 
 --create plant nodes. Not all plants spawn in the wild for this you have to define it on the generate on function
-add_farm_plant("cotton")
-add_plant("corn")
+add_plant("cotton")
+add_farm_plant("corn")
 add_plant("lavender")
 add_plant("potato")
 add_plant("redshroom")
 add_plant("cacao")
+add_plant("brownshroom")
+add_plant("chamomile")
+add_plant("colchicum")
+add_plant("poppy")
 
 --generate(node, surface, minp, maxp, height_min, height_max, spread, habitat_size, habitat_nodes)
 --For the plants that do spawn on the lang we have the generate function. This makes sure that plants are placed when new peaces of the level are loaded.
@@ -222,7 +226,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	generate("harvest:redshroom_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 20, 8, {"default:leaves",})
 	generate("harvest:corn_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 8, 10, {"default:water_source",})
 	generate("harvest:cotton_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 8, 10, {"default:desert_sand",})
-	
+	generate("harvest:brownshroom_wild", {"default:stone"}, minp, maxp, -40, 10, 2, 10, {"default:water_source",})
+	generate("harvest:chamomile_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 40, 4, 10, {"default:stone_with_coal",})
+	generate("harvest:colchicum_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 40, 4, 10, {"default:stone_with_iron",})
+	generate("harvest:poppy_wild", {"default:desert_sand"}, minp, maxp, -10, 20, 4, 10, {"default:water_source",})
 end)
 
 print("[Harvest] Loaded!")
