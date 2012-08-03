@@ -1,5 +1,4 @@
 -- Must have
---Growing abm for soil. checking if water nearby and if crop is ontop.
 
 --Grow in different terrains for example
 --cliffs
@@ -22,41 +21,20 @@
 --variable and function definitions
 local mod_name = "harvest"
 
-local mod_update = 40 --amount of seconds between growing plants on dirt
-
-local crop_names = {
-	"cotton",
-	"potato",
-	"wheat",
-	"corn",
-	"lavender",
-	"weed",
-}
-
-local crop_phases = {
-    "seedling",
-    "sapling",
-    "plant",
-    "harvest",
-    "wild"
-}
-
-local grow_surfaces = {
-    "default:dirt",
-    "default:dirt_with_grass"
-}
-
 local wild_crops = {}
-local wild_crop_count = 1
+local wild_crop_count = 0
 
-local name = 1
-local phase = 1
+local function arrayContains(array, value)
+    for _,v in pairs(array) do
+      if v == value then
+        return true
+      end
+    end
+    
+    return false
+end
 
-local node_name
-local node_tile
-
-
-local function generate(node, surface, minp, maxp, height_min, height_max, spread, habitat_size, habitat_nodes)
+local function generate(node, surfaces, minp, maxp, height_min, height_max, spread, habitat_size, habitat_nodes)
     if maxp.y < height_min or minp.y > height_max then
 		return
 	end
@@ -72,22 +50,31 @@ local function generate(node, surface, minp, maxp, height_min, height_max, sprea
 	local x_current
 	local z_current
 	
+	local x_deviation
+	local z_deviation
+	
 	--apperently nested while loops don't work!
 	for x_current = spread/2, width, spread do
 	    for z_current = spread/2, length, spread do
+
+	        x_deviation = math.floor(math.random(spread))-spread/2
+	        z_deviation = math.floor(math.random(spread))-spread/2
+
 	        for y_current = height_max, height_min, -1 do
 	            --print(x_current .. "-" .. width .. " - " .. x_current)
 	            
-	            local p = {x=minp.x+x_current, y=y_current, z=minp.z+z_current}
+	            local p = {x=minp.x+x_current+x_deviation, y=y_current, z=minp.z+z_current+z_deviation}
 	            local n = minetest.env:get_node(p)
 	            
 	            local p_top = {x=p.x, y=p.y+1, z=p.z}
 	            local n_top = minetest.env:get_node(p_top)
-	            if n.name == surface and n_top.name == "air" then
-                    
-                    if minetest.env:find_node_near(p_top, habitat_size, habitat_nodes) ~= nil then
-                        print(p.x .. " - " .. p.y .. " - " .. p.z)
-                        minetest.env:add_node(p_top, {name=node})
+	            if n_top.name == "air" then
+	            
+                    if arrayContains(surfaces, n.name) then 
+                        if minetest.env:find_node_near(p_top, habitat_size, habitat_nodes) ~= nil then
+                            print(p.x .. " - " .. p.y .. " - " .. p.z)
+                            minetest.env:add_node(p_top, {name=node})
+                        end
                     end
 
 	            end
@@ -100,25 +87,13 @@ local function generate(node, surface, minp, maxp, height_min, height_max, sprea
     end
 end
 
-minetest.register_on_generated(function(minp, maxp, seed)
-	
-	generate("default:cobble", "default:dirt_with_grass", minp, maxp, -10, 60, 4, 4, {"default:sand",})
-	
-end)
-
-local is_node_in_cube = function(nodenames, node_pos, radius)
-    
-    if minetest.env:find_node_near(node_pos, radius, nodenames) ~= nil then
-        return true
-    end
-    return false
-    
-end
-
-local add_farm_plant = function(name_plant, spacing, spawning, grow_nodes, near_nodes, near_distance, growing_speed) --register a farming plant
+local add_farm_plant = function(name_plant) --register a farming plant
     
     local name = mod_name..":"..name_plant
     local img = mod_name.."_"..name_plant
+    
+    
+    
     
     minetest.register_node(name.."_wild", {--register wild plant
         tile_images = {img.."_wild.png"},
@@ -179,58 +154,23 @@ local add_farm_plant = function(name_plant, spacing, spawning, grow_nodes, near_
         groups = { snappy = 3},
         drop = "",
     })
-    
-    minetest.register_abm({
-        nodenames = grow_nodes,
-        interval = mod_update,
-        chance = spawning,
-        action = function(pos, node)
-            local p = {x=pos.x, y=pos.y+1, z=pos.z}
-            local n = minetest.env:get_node(p)
-
-            if n.name == "air" then
-                if is_node_in_cube(near_nodes, pos, near_distance) and is_node_in_cube({name.."_wild"}, pos, spacing)==false then
-		            minetest.env:add_node(p, {name=name.."_wild"})
-		        end
-		    end
-            
-        end
-    })
-    
 end
 
-local add_plant = function(name_plant, spacing, spawning, grow_nodes, near_nodes, near_distance) -- register a wild plant
-
+local add_plant = function(name_plant) -- register a wild plant
+    
     local name = mod_name..":"..name_plant
     local img = mod_name.."_"..name_plant
-
+    
     minetest.register_node(name.."_wild", {--register wild plant
         tile_images = {img.."_wild.png"},
+        inventory_image = img.."_wild.png",
         drawtype = "plantlike",
-        inventory_image = "",
-        paramtype = "light",
         sunlight_propagates = true,
-        walkable = false,
-        groups = { snappy = 3},
-        drop = "",
+		paramtype = "light",
+		walkable = false,
+		groups = { snappy = 3,flammable=2 },
     })
     
-    minetest.register_abm({
-        nodenames = grow_nodes,
-        interval = mod_update,
-        chance = spawning,
-        action = function(pos, node)
-            local p = {x=pos.x, y=pos.y+1, z=pos.z}
-            local n = minetest.env:get_node(p)
-
-            if n.name == "air" then
-                if is_node_in_cube(near_nodes, pos, near_distance) and is_node_in_cube({name.."_wild"}, pos, spacing)==false then
-		            minetest.env:add_node(p, {name=name.."_wild"})
-		        end
-		    end
-            
-        end
-    })
 end
 
 --plant registration
@@ -267,17 +207,22 @@ minetest.register_node(mod_name..":soil", {
 	end,
 })
 
---ABM's for placing wild versions of the plant on dirt tiles
---test()
-add_farm_plant("cotton", 4, 40, {"default:dirt_with_grass"}, {"default:desert_sand"}, 5)
-add_farm_plant("corn", 4, 50, {"default:dirt_with_grass"}, {"default:water_source"}, 3,10)
-add_plant("lavender", 1, 5, {"default:dirt_with_grass"}, {"default:sand"}, 2)
-add_plant("potato", 8, 20, {"default:desert_sand"}, {"default:dirt_with_grass"}, 16)
-add_plant("redshroom", 10, 10, {"default:dirt_with_grass"}, {"default:leaves"}, 3)
-add_plant("cacao", 10, 20, {"default:dirt_with_grass"}, {"snow:dirt_with_snow"}, 16)
+--create plant nodes. Not all plants spawn in the wild for this you have to define it on the generate on function
+add_farm_plant("cotton")
+add_plant("corn")
+add_plant("lavender")
+add_plant("potato")
+add_plant("redshroom")
+add_plant("cacao")
 
-
+--generate(node, surface, minp, maxp, height_min, height_max, spread, habitat_size, habitat_nodes)
+--For the plants that do spawn on the lang we have the generate function. This makes sure that plants are placed when new peaces of the level are loaded.
+minetest.register_on_generated(function(minp, maxp, seed)
+	generate("harvest:lavender_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 4, 4, {"default:sand",})
+	generate("harvest:redshroom_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 20, 8, {"default:leaves",})
+	generate("harvest:corn_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 8, 10, {"default:water_source",})
+	generate("harvest:cotton_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 8, 10, {"default:desert_sand",})
+	
+end)
 
 print("[Harvest] Loaded!")
-
-
