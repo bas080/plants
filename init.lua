@@ -1,24 +1,10 @@
--- Must have
-
---Grow in different terrains for example
---cliffs
---near water
---in open fields far from trees
---in dessert environtments
---beneath trees
---next to stone
---near sand
---near dessert
---in dessert?
-
---Should do
---Function which gives possibilty to add crops
-
+--Harvest
 --A simple farming mod
+--A extended plant spawning mod
 
---mod name
 
---variable and function definitions
+
+--Variable and function definitions
 local mod_name = "harvest"
 
 local wild_crops = {}
@@ -61,8 +47,6 @@ local function generate(node, surfaces, minp, maxp, height_min, height_max, spre
 	        z_deviation = math.floor(math.random(spread))-spread/2
 
 	        for y_current = height_max, height_min, -1 do
-	            --print(x_current .. "-" .. width .. " - " .. x_current)
-	            
 	            local p = {x=minp.x+x_current+x_deviation, y=y_current, z=minp.z+z_current+z_deviation}
 	            local n = minetest.env:get_node(p)
 	            
@@ -72,7 +56,6 @@ local function generate(node, surfaces, minp, maxp, height_min, height_max, spre
 	            
                     if arrayContains(surfaces, n.name) then 
                         if minetest.env:find_node_near(p_top, habitat_size, habitat_nodes) ~= nil then
-                            print(p.x .. " - " .. p.y .. " - " .. p.z)
                             minetest.env:add_node(p_top, {name=node})
                         end
                     end
@@ -87,75 +70,6 @@ local function generate(node, surfaces, minp, maxp, height_min, height_max, spre
     end
 end
 
-local add_farm_plant = function(name_plant) --register a farming plant
-    
-    local name = mod_name..":"..name_plant
-    local img = mod_name.."_"..name_plant
-    
-    
-    
-    
-    minetest.register_node(name.."_wild", {--register wild plant
-        tile_images = {img.."_wild.png"},
-        drawtype = "plantlike",
-        paramtype = "light",
-        sunlight_propagates = true,
-        walkable = false,
-        groups = { snappy = 3},
-        drop = { items = { name.."_seedling"},
-		    max_items = 1,
-		    items = {
-			    {
-				    items = {name.."_seedling"},
-				    rarity = 30,
-			    },
-		    }
-	    },
-    })
-    
-    minetest.register_node(name.."_seedling", {--register seedling
-        tile_images = {img.."_seedling.png"},
-        wield_image = img.."_seeds.png",
-        inventory_image = img.."_seeds.png",
-        drawtype = "plantlike",
-        paramtype = "light",
-        sunlight_propagates = true,
-        walkable = false,
-        groups = { snappy = 3},
-        drop = "",
-    })
-    
-    minetest.register_node(name.."_sapling", {--register sapling
-        tile_images = {img.."_sapling.png"},
-        drawtype = "plantlike",
-        paramtype = "light",
-        sunlight_propagates = true,
-        walkable = false,
-        groups = { snappy = 3},
-        drop = "",
-    })
-    
-    minetest.register_node(name.."_plant", {--register plant
-        tile_images = {img.."_plant.png"},
-        drawtype = "plantlike",
-        paramtype = "light",
-        sunlight_propagates = true,
-        walkable = false,
-        groups = { snappy = 3},
-        drop = "",
-    })
-    
-    minetest.register_node(name.."_harvest", {--register plant
-        tile_images = {img.."_harvest.png"},
-        drawtype = "plantlike",
-        paramtype = "light",
-        sunlight_propagates = true,
-        walkable = false,
-        groups = { snappy = 3},
-        drop = "",
-    })
-end
-
 local add_plant = function(name_plant) -- register a wild plant
     
     local name = mod_name..":"..name_plant
@@ -164,6 +78,7 @@ local add_plant = function(name_plant) -- register a wild plant
     minetest.register_node(name.."_wild", {--register wild plant
         tile_images = {img.."_wild.png"},
         inventory_image = img.."_wild.png",
+        description = name_plant,
         drawtype = "plantlike",
         sunlight_propagates = true,
 		paramtype = "light",
@@ -176,40 +91,13 @@ end
 --plant registration
 --Just wild plant
 --node registration
---make tools with which dirt can be prepared for growing
-minetest.register_tool(mod_name..":hoe_wood", {
-	description = "Sickle",
-	inventory_image = "harvest_hoe_wood.png",
-	on_use = function(itemstack, user, pointed_thing)
-        -- Must be pointing to node
-		if pointed_thing.type ~= "node" then
-			return
-		end
-		-- Check if pointing to dirt or dirt_with_grass
-		n = minetest.env:get_node(pointed_thing.under)
-		
-		if n.name == "default:dirt" or n.name == "default:dirt_with_grass" then
-		    minetest.env:add_node(pointed_thing.under, {name=mod_name..":soil"})
-		end
-        
-        
-	end,
-})
+
 
 --Make node in which dirt changes after hoe preperation
-minetest.register_node(mod_name..":soil", {
-	description = "Soil",
-	tile_images = {"harvest_soil.png", "default_dirt.png"},
-	groups = {crumbly=3},
-	drop = 'default:dirt',
-	after_dig_node = function(pos)
-	    
-	end,
-})
 
 --create plant nodes. Not all plants spawn in the wild for this you have to define it on the generate on function
 add_plant("cotton")
-add_farm_plant("corn")
+add_plant("corn")
 add_plant("lavender")
 add_plant("potato")
 add_plant("redshroom")
