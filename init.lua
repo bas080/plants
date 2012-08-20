@@ -2,10 +2,10 @@
 --A simple farming mod
 --A extended plant spawning mod
 
-
+--register alias to avoid unknown plants from previous harvest version
 
 --Variable and function definitions
-local mod_name = "harvest"
+local mod_name = "plants"
 
 local wild_crops = {}
 local wild_crop_count = 0
@@ -63,8 +63,6 @@ local function generate(node, surfaces, minp, maxp, height_min, height_max, spre
 	            end
 	        end
 	        --randomize positioning a little and then check if the surface(grow on) node is beneath it. If so check if habitat node is within the habitat_size. If so create the node.
-	        
-
 	        z_current = z_current + spread
         end
     end
@@ -81,9 +79,10 @@ local add_plant = function(name_plant) -- register a wild plant
         description = name_plant,
         drawtype = "plantlike",
         sunlight_propagates = true,
-		paramtype = "light",
-		walkable = false,
-		groups = { snappy = 3,flammable=2 },
+        paramtype = "light",
+        walkable = false,
+        groups = { snappy = 3,flammable=2 },
+        sounds = default.node_sound_leaves_defaults(),
     })
     
 end
@@ -91,8 +90,16 @@ end
 --plant registration
 --Just wild plant
 --node registration
-
-
+minetest.register_alias("harvest:lavender_wild", "plants:lavender_wild")
+minetest.register_alias("harvest:redshroom_wild", "plants:redshroom_wild")
+minetest.register_alias("harvest:corn_wild", "plants:corn_wild")
+minetest.register_alias("harvest:cotton_wild", "plants:cotton_wild")
+minetest.register_alias("harvest:brownshroom_wild", "plants:brownshroom_wild")
+minetest.register_alias("harvest:chamomile_wild", "plants:chamomile_wild")
+minetest.register_alias("harvest:colchicum_wild", "plants:colchicum_wild")
+minetest.register_alias("harvest:poppy_wild", "plants:poppy_wild")
+minetest.register_alias("harvest:grasstall_wild", "plants:grasstall_wild")
+minetest.register_alias("harvest:grass_wild", "plants:grass_wild")
 --Make node in which dirt changes after hoe preperation
 
 --create plant nodes. Not all plants spawn in the wild for this you have to define it on the generate on function
@@ -109,20 +116,19 @@ add_plant("poppy")
 add_plant("grasstall")
 add_plant("grass")
 
-
 --generate(node, surface, minp, maxp, height_min, height_max, spread, habitat_size, habitat_nodes)
 --For the plants that do spawn on the lang we have the generate function. This makes sure that plants are placed when new peaces of the level are loaded.
 minetest.register_on_generated(function(minp, maxp, seed)
-	generate("harvest:lavender_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 4, 4, {"default:sand",})
-	generate("harvest:redshroom_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 20, 8, {"default:leaves",})
-	generate("harvest:corn_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 8, 10, {"default:water_source",})
-	generate("harvest:cotton_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 8, 10, {"default:desert_sand",})
-	generate("harvest:brownshroom_wild", {"default:stone"}, minp, maxp, -40, 10, 2, 10, {"default:water_source",})
-	generate("harvest:chamomile_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 40, 8, 4, {"default:stone_with_coal",})
-	generate("harvest:colchicum_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 40, 4, 10, {"default:stone_with_iron",})
-	generate("harvest:poppy_wild", {"default:desert_sand"}, minp, maxp, -10, 20, 4, 10, {"default:water_source",})
-	generate("harvest:grasstall_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 20, 3, 3, {"default:water_source",})
-	generate("harvest:grass_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 20, 3, 3, {"default:water_source",})
+	generate("plants:lavender_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 4, 4, {"default:sand",})
+	generate("plants:redshroom_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 20, 8, {"default:leaves",})
+	generate("plants:corn_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 8, 10, {"default:water_source",})
+	generate("plants:cotton_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 60, 8, 10, {"default:desert_sand",})
+	generate("plants:brownshroom_wild", {"default:stone"}, minp, maxp, -40, 10, 2, 10, {"default:water_source",})
+	generate("plants:chamomile_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 40, 8, 4, {"default:stone_with_coal",})
+	generate("plants:colchicum_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 40, 4, 10, {"default:stone_with_iron",})
+	generate("plants:poppy_wild", {"defaultw:desert_sand"}, minp, maxp, -10, 20, 4, 10, {"default:water_source",})
+	generate("plants:grasstall_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 20, 3, 3, {"default:water_source",})
+	generate("plants:grass_wild", {"default:dirt_with_grass"}, minp, maxp, -10, 20, 3, 3, {"default:water_source",})
 end)
 
 print("[Harvest] Loaded!")
