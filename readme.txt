@@ -10,6 +10,15 @@ BY:             bas080
 DESCRIPTION:    Color the landscape with plants
 VERSION:        1.0
 LICENCE:        WTFPL
+FORUM:          http://forum.minetest.net/viewtopic.php?id=2619
+
+Todo
+
+3.0
+* Seeds for PilzAdam's farming mod
+* Add more plants
+  - mese-flower
+  - glow-shroom
 
 Changelog
 2.0
