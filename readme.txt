@@ -12,5 +12,10 @@ VERSION:        1.0
 LICENCE:        WTFPL
 
 Changelog
+2.0
+* Uses plants_lib
+
 1.0
 * Has brownshroom, cacao, chamomile, colchicum, corn, cotton, grasstall, grass, lavender, redshroom, weed, wheat
+* Spawn plants with habitat mod
+
