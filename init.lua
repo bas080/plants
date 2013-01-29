@@ -143,13 +143,14 @@ plantslib:register_generate_plant({
 plantslib:register_generate_plant({
     surface = "default:dirt_with_grass",
     near_nodes = {"default:water_source"},
-    near_nodes_size = 8,
-    near_nodes_vertical = 8,
+    near_nodes_size = 16,
+    near_nodes_vertical = 16,
     near_nodes_count = 2,
     min_elevation = 2,
     max_elevation = 40,
-    rarity = 1,
+    rarity = 4,
     plantlife_limit = -1,
+    max_count = 50
   }, 
   "plants:grasstall_wild"
 )
@@ -162,8 +163,9 @@ plantslib:register_generate_plant({
     near_nodes_count = 2,
     min_elevation = 2,
     max_elevation = 60,
-    rarity = 2,
+    rarity = 4,
     plantlife_limit = -1,
+    max_count = 50
   }, 
   "plants:grass_wild"
 )
