@@ -39,11 +39,12 @@ plantslib:register_generate_plant({
     surface = "default:dirt_with_grass",
     near_nodes = {"default:sand"},
     near_nodes_size = 4,
-    near_nodes_vertical = 4,
+    near_nodes_vertical = 3,
     min_elevation = 2,
     max_elevation = 60,
     rarity = 8,
     plantlife_limit = -0.9,
+    max_count = 30,
   }, 
   "plants:lavender_wild"
 )
@@ -53,11 +54,12 @@ plantslib:register_generate_plant({
     surface = "default:dirt_with_grass",
     near_nodes = {"default:leaves"},
     near_nodes_size = 8,
-    near_nodes_vertical = 8,
+    near_nodes_vertical = 1,
     min_elevation = 2,
     max_elevation = 60,
     rarity = 10,
     plantlife_limit = -0.8,
+    max_count = 15,
   }, 
   "plants:redshroom_wild"
 )
@@ -66,12 +68,13 @@ plantslib:register_generate_plant({
 plantslib:register_generate_plant({
     surface = "default:dirt_with_grass",
     near_nodes = {"default:water_source"},
-    near_nodes_size = 10,
-    near_nodes_vertical = 10,
+    near_nodes_size = 5,
+    near_nodes_vertical = 5,
     min_elevation = 2,
     max_elevation = 60,
-    rarity = 5,
+    rarity = 2,
     plantlife_limit = -1,
+    max_count = 5,
   }, 
   "plants:corn_wild"
 )
@@ -79,12 +82,13 @@ plantslib:register_generate_plant({
 plantslib:register_generate_plant({
     surface = "default:dirt_with_grass",
     near_nodes = {"default:desert_sand"},
-    near_nodes_size = 10,
-    near_nodes_vertical = 10,
+    near_nodes_size = 5,
+    near_nodes_vertical = 1,
     min_elevation = 2,
     max_elevation = 60,
     rarity = 8,
     plantlife_limit = -0.5,
+    max_count = 3,
   }, 
   "plants:cotton_wild"
 )
@@ -92,12 +96,13 @@ plantslib:register_generate_plant({
 plantslib:register_generate_plant({
     surface = "default:stone",
     near_nodes = {"default:water_source"},
-    near_nodes_size = 10,
-    near_nodes_vertical = 10,
+    near_nodes_size = 5,
+    near_nodes_vertical = 2,
     min_elevation = -40,
     max_elevation = 2,
     rarity = 2,
     plantlife_limit = -0.7,
+    max_count = 10,
   }, 
   "plants:brownshroom_wild"
 )
@@ -112,6 +117,7 @@ plantslib:register_generate_plant({
     min_elevation = 2,
     max_elevation = 40,
     rarity = 8,
+    max_count = 10,
   }, 
   "plants:chamomile_wild"
 )
@@ -131,7 +137,7 @@ plantslib:register_generate_plant({
 plantslib:register_generate_plant({
     surface = "default:desert_sand",
     near_nodes = {"default:water_source"},
-    near_nodes_size = 10,
+    near_nodes_size = 4,
     near_nodes_vertical = 10,
     min_elevation = 2,
     max_elevation = 40,
@@ -143,14 +149,14 @@ plantslib:register_generate_plant({
 plantslib:register_generate_plant({
     surface = "default:dirt_with_grass",
     near_nodes = {"default:water_source"},
-    near_nodes_size = 16,
-    near_nodes_vertical = 16,
+    near_nodes_size = 8,
+    near_nodes_vertical = 2,
     near_nodes_count = 2,
     min_elevation = 2,
     max_elevation = 40,
     rarity = 4,
     plantlife_limit = -1,
-    max_count = 50
+    max_count = 40
   }, 
   "plants:grasstall_wild"
 )
@@ -159,13 +165,13 @@ plantslib:register_generate_plant({
     surface = "default:dirt_with_grass",
     near_nodes = {"default:water_source"},
     near_nodes_size = 16,
-    near_nodes_vertical = 16,
+    near_nodes_vertical = 4,
     near_nodes_count = 2,
     min_elevation = 2,
     max_elevation = 60,
     rarity = 4,
     plantlife_limit = -1,
-    max_count = 50
+    max_count = 20
   }, 
   "plants:grass_wild"
 )
