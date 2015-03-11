@@ -160,6 +160,8 @@ habitat:generate("plants:lavender_wild", "default:dirt_with_grass", nil, nil, 2,
 habitat:generate("plants:corn_wild", "default:dirt_with_grass", nil, nil, 2, 60, 8, 10, {"default:water_source"},0,{""})
 habitat:generate("plants:cotton_wild", "default:dirt_with_grass", nil, nil, 2, 60, 8, 10, {"default:desert_sand"},0,{""})
 habitat:generate("plants:aloe_wild", "default:desert_sand", nil, nil, 5, 40, 12, 20, {"default:water_source", "default:cactus", "default:dirt_with_grass"},0,{""})
+habitat:generate("plants:potato_wild", "default:dirt_with_grass", nil, nil, 20, 90, 20, 2, {"default:dirt_with_grass"},30,{"default:junglegrass", "default:jungletree"})
+habitat:generate("plants:cacao_wild", "default:dirt_with_grass", nil, nil, 20, 90, 8, 20, {"default:desert_sand"},0,{""})
 habitat:generate("plants:grasstall_wild", "default:dirt_with_grass", nil, nil, 2, 20, 3, 20, {"default:water_source"},0,{""})
 habitat:generate("plants:grass_wild", "default:dirt_with_grass", nil, nil, 2, 20, 3, 40, {"default:water_source"},0,{""})
 
