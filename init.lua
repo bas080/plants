@@ -83,7 +83,6 @@ local add_plant = function(name_plant, drop) -- register a wild plant
       minetest.after(5, function()
         local n = minetest.env:get_node({x=pos.x,y=pos.y,z=pos.z}).name
         local b = minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z}).name
-        print(n..b)
         if (n == "air" and b ~= "air") then
           minetest.env:add_node(pos, node)
         end
