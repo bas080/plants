@@ -77,17 +77,19 @@ local add_plant = function(name_plant, drop) -- register a wild plant
       type = "fixed",
       fixed = { -0.25, -0.5, -0.25, 0.25, -3/16, 0.25 },
     },
-    after_destruct = function(pos,node)
-      
-      --regenerate plant only if exact location is not compromized
-      minetest.after(5, function()
-        local n = minetest.env:get_node({x=pos.x,y=pos.y,z=pos.z}).name
-        local b = minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z}).name
-        if (n == "air" and b ~= "air") then
-          minetest.env:add_node(pos, node)
-        end
-        
-      end)
+    after_dig_node = function(pos, node, meta, digger)
+      --if wielding a shovel, don't regenerate
+      if nil == string.find(digger:get_wielded_item():get_name(), ":shovel_") then
+	--regenerate plant only if exact location is not compromized
+	minetest.after(5, function()
+	  print("Dig plant: trying to regenerate")
+	  local n = minetest.env:get_node({x=pos.x,y=pos.y,z=pos.z}).name
+	  local b = minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z}).name
+	  if (n == "air" and b ~= "air") then
+	    minetest.env:add_node(pos, node)
+	  end
+	end)
+      end
     end,
   })
 end
