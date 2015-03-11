@@ -29,10 +29,35 @@ end
 local add_plant = function(name_plant, drop) -- register a wild plant
   local name = mod_name..":"..name_plant
   local img = mod_name.."_"..name_plant.."_wild.png"
-  if minetest.get_modpath("farming") then
-    drops = drop
-  else
-    drops = {max_items = 1,items = {{ items = {name.."_wild"}}}}
+  local drops
+  if drop ~= nil then
+    drops = {}
+    drops.max_items = drop.max_items
+    drops.items = {}
+    local item
+    local default
+    for _, item in ipairs(drop.items) do
+      if item == "default" then
+	default = { items = {name.."_wild"}}
+      else
+	-- verify if requested nodes exist. If not, don't use them
+	local node
+	local nodelist = {}
+	for _, node in ipairs(item.items) do
+	  if minetest.registered_nodes[node] then
+	    table.insert(nodelist, node)
+	  end
+	end
+	if next(nodelist) ~= nil then
+	  item.items = nodelist
+	  table.insert(drops.items, item)
+	end
+      end
+    end
+    -- Don't know whether this is necessary, but put the default at the end
+    if default then
+      table.insert(drops.items, default)
+    end
   end
   minetest.register_node(name.."_wild", {--register wild plant
     tile_images = {img},
@@ -67,7 +92,7 @@ local add_plant = function(name_plant, drop) -- register a wild plant
 end
 
 add_plant("aloe")
-add_plant("cotton",{max_items = 1,items = {{ items = {'farming:cotton_seed'}, rarity = 10}}})
+add_plant("cotton",{max_items = 1,items = {"default", { items = {'farming:cotton_seed'}, rarity = 10}}})
 add_plant("corn")
 add_plant("lavender")
 add_plant("potato")
@@ -77,8 +102,8 @@ add_plant("brownshroom")
 add_plant("chamomile")
 add_plant("colchicum")
 add_plant("poppy")
-add_plant("grasstall",{max_items = 1,items = {{ items = {'farming:wheat_seed'}, rarity = 40}}})
-add_plant("grass",{max_items = 1,items = {{ items = {'farming:wheat_seed'}, rarity = 60}}})
+add_plant("grasstall",{max_items = 1,items = {"default", { items = {'farming:wheat_seed'}, rarity = 40}}})
+add_plant("grass",{max_items = 1,items = {"default", { items = {'farming:wheat_seed'}, rarity = 60}}})
 
 name_plant = "glowshroom"
 name = mod_name..":"..name_plant.."_wild"
