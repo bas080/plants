@@ -125,22 +125,22 @@ minetest.register_node(name, {
 })
 
 --plants
-habitat:generate("plants:lavender_wild", "default:dirt_with_grass", minp, maxp, 2, 60, 4, 4, {"default:sand"},0,{""})
-habitat:generate("plants:corn_wild", "default:dirt_with_grass", minp, maxp, 2, 60, 8, 10, {"default:water_source"},0,{""})
-habitat:generate("plants:cotton_wild", "default:dirt_with_grass", minp, maxp, 2, 60, 8, 10, {"default:desert_sand"},0,{""})
-habitat:generate("plants:aloe_wild", "default:desert_sand", minp, maxp, 5, 40, 12, 20, {"default:water_source", "default:cactus", "default:dirt_with_grass"},0,{""})
-habitat:generate("plants:grasstall_wild", "default:dirt_with_grass", minp, maxp, 2, 20, 3, 20, {"default:water_source"},0,{""})
-habitat:generate("plants:grass_wild", "default:dirt_with_grass", minp, maxp, 2, 20, 3, 40, {"default:water_source"},0,{""})
+habitat:generate("plants:lavender_wild", "default:dirt_with_grass", nil, nil, 2, 60, 4, 4, {"default:sand"},0,{""})
+habitat:generate("plants:corn_wild", "default:dirt_with_grass", nil, nil, 2, 60, 8, 10, {"default:water_source"},0,{""})
+habitat:generate("plants:cotton_wild", "default:dirt_with_grass", nil, nil, 2, 60, 8, 10, {"default:desert_sand"},0,{""})
+habitat:generate("plants:aloe_wild", "default:desert_sand", nil, nil, 5, 40, 12, 20, {"default:water_source", "default:cactus", "default:dirt_with_grass"},0,{""})
+habitat:generate("plants:grasstall_wild", "default:dirt_with_grass", nil, nil, 2, 20, 3, 20, {"default:water_source"},0,{""})
+habitat:generate("plants:grass_wild", "default:dirt_with_grass", nil, nil, 2, 20, 3, 40, {"default:water_source"},0,{""})
 
 --flowers
-habitat:generate("plants:chamomile_wild", "default:dirt_with_grass", minp, maxp, 2, 40, 8, 4, {"default:stone_with_coal"},0,{""})
-habitat:generate("plants:colchicum_wild", "default:dirt_with_grass", minp, maxp, 2, 40, 4, 4, {"default:stone_with_iron"},0,{""})
-habitat:generate("plants:poppy_wild", "default:desert_sand", minp, maxp, 2, 20, 4, 10, {"default:water_source"},0,{""})
+habitat:generate("plants:chamomile_wild", "default:dirt_with_grass", nil, nil, 2, 40, 8, 4, {"default:stone_with_coal"},0,{""})
+habitat:generate("plants:colchicum_wild", "default:dirt_with_grass", nil, nil, 2, 40, 4, 4, {"default:stone_with_iron"},0,{""})
+habitat:generate("plants:poppy_wild", "default:desert_sand", nil, nil, 2, 20, 4, 10, {"default:water_source"},0,{""})
 
 --shrooms
-habitat:generate("plants:lavashroom_wild", "default:stone", minp, maxp, -1000, -130, 5, 10, {"default:lava_source"},0,{""})
-habitat:generate("plants:glowshroom_wild", "default:stone", minp, maxp, -5, 20, 7, 40, {"default:stone_with_coal"},0,{""})
-habitat:generate("plants:redshroom_wild", "default:dirt_with_grass", minp, maxp, 2, 60, 20, 8, {"default:leaves"},0,{""})
-habitat:generate("plants:brownshroom_wild", "default:stone", minp, maxp, -40, 2, 2, 10, {"default:water_source"},0,{""})
+habitat:generate("plants:lavashroom_wild", "default:stone", nil, nil, -1000, -130, 5, 10, {"default:lava_source"},0,{""})
+habitat:generate("plants:glowshroom_wild", "default:stone", nil, nil, -5, 20, 7, 40, {"default:stone_with_coal"},0,{""})
+habitat:generate("plants:redshroom_wild", "default:dirt_with_grass", nil, nil, 2, 60, 20, 8, {"default:leaves"},0,{""})
+habitat:generate("plants:brownshroom_wild", "default:stone", nil, nil, -40, 2, 2, 10, {"default:water_source"},0,{""})
 
 print("[Plants] Loaded!")
