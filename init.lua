@@ -92,7 +92,7 @@ local add_plant = function(name_plant, drop) -- register a wild plant
 end
 
 add_plant("aloe")
-add_plant("cotton",{max_items = 1,items = {"default", { items = {'farming:cotton_seed'}, rarity = 10}}})
+add_plant("cotton",{max_items = 1,items = {"default", { items = {'farming:seed_cotton'}, rarity = 10}, { items = {'farming:cotton_seed'}, rarity = 10}}})
 add_plant("corn")
 add_plant("lavender")
 add_plant("potato")
@@ -102,8 +102,8 @@ add_plant("brownshroom")
 add_plant("chamomile")
 add_plant("colchicum")
 add_plant("poppy")
-add_plant("grasstall",{max_items = 1,items = {"default", { items = {'farming:wheat_seed'}, rarity = 40}}})
-add_plant("grass",{max_items = 1,items = {"default", { items = {'farming:wheat_seed'}, rarity = 60}}})
+add_plant("grasstall",{max_items = 1,items = {"default", { items = {'farming:seed_wheat'}, rarity = 40}, { items = {'farming:wheat_seed'}, rarity = 40}}})
+add_plant("grass",{max_items = 1,items = {"default", { items = {'farming:seed_wheat'}, rarity = 60}, { items = {'farming:wheat_seed'}, rarity = 40}}})
 
 name_plant = "glowshroom"
 name = mod_name..":"..name_plant.."_wild"
