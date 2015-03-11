@@ -81,11 +81,12 @@ local add_plant = function(name_plant, drop) -- register a wild plant
       --if wielding a shovel, don't regenerate
       if nil == string.find(digger:get_wielded_item():get_name(), ":shovel_") then
 	--regenerate plant only if exact location is not compromized
+	local on = minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z}).name
 	minetest.after(5, function()
 	  print("Dig plant: trying to regenerate")
 	  local n = minetest.env:get_node({x=pos.x,y=pos.y,z=pos.z}).name
 	  local b = minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z}).name
-	  if (n == "air" and b ~= "air") then
+	  if (n == "air" and b ~= "air" and b == on) then
 	    minetest.env:add_node(pos, node)
 	  end
 	end)
