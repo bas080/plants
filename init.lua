@@ -5,7 +5,7 @@ local img
 plants = {}
 
 plants.default_node_def = {--register wild plant
-  tile_images = {img},
+  tiles = {img},
   inventory_image = img,
   description = "A plant",
   drop = nil,
@@ -61,7 +61,7 @@ local add_plant = function(name_plant, drop) -- register a wild plant
     end
   end
   minetest.register_node(name.."_wild", {--register wild plant
-    tile_images = {img},
+    tiles = {img},
     inventory_image = img,
     description = name_plant,
     drop = drops,
@@ -113,7 +113,7 @@ name_plant = "glowshroom"
 name = mod_name..":"..name_plant.."_wild"
 img = mod_name.."_"..name_plant.."_wild.png"
 minetest.register_node(name, {
-  tile_images = {img},
+  tiles = {img},
   inventory_image = img,
   description = name_plant,
   drop = {max_items = 1,items = {{ items = {name}}}},
@@ -136,7 +136,7 @@ name_plant = "lavashroom"
 name = mod_name..":"..name_plant.."_wild"
 img = mod_name.."_"..name_plant.."_wild.png"
 minetest.register_node(name, {
-  tile_images = {img},
+  tiles = {img},
   inventory_image = img,
   description = name_plant,
   drop = {max_items = 1,items = {{ items = {name}}}},
