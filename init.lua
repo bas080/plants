@@ -176,4 +176,24 @@ habitat:generate("plants:glowshroom_wild", "default:stone", nil, nil, -5, 20, 7,
 habitat:generate("plants:redshroom_wild", "default:dirt_with_grass", nil, nil, 2, 60, 20, 8, {"default:leaves"},0,{""})
 habitat:generate("plants:brownshroom_wild", "default:stone", nil, nil, -40, 2, 2, 10, {"default:water_source"},0,{""})
 
+-- Flowerpot mod integration
+-- Ref https://github.com/minetest-mods/flowerpot/blob/master/api.md
+if minetest.global_exists("flowerpot") then
+	flowerpot.register_node("plants:lavender_wild")
+	flowerpot.register_node("plants:potato_wild")
+	flowerpot.register_node("plants:corn_wild")
+	flowerpot.register_node("plants:cotton_wild")
+	flowerpot.register_node("plants:poppy_wild")
+	flowerpot.register_node("plants:colchicum_wild")
+	flowerpot.register_node("plants:cacao_wild")
+	flowerpot.register_node("plants:aloe_wild")
+	flowerpot.register_node("plants:chamomile_wild")
+	flowerpot.register_node("plants:grasstall_wild")
+    flowerpot.register_node("plants:grass_wild")
+	flowerpot.register_node("plants:redshroom_wild")
+	flowerpot.register_node("plants:glowshroom_wild")
+	flowerpot.register_node("plants:lavashroom_wild")
+	flowerpot.register_node("plants:brownshroom_wild")
+end
+
 print("[Plants] Loaded!")
